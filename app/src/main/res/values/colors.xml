@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="black_overlay">#66000000</color>
+    <color name="activity_orange">#f4a74a</color>
+    <color name="activity_blue">#74eaf2</color>
 </resources>

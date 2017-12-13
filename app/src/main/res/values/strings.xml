@@ -1,5 +1,9 @@
 <resources>
-    <string name="app_name">Wunderchild</string>
+    <string name="app_name">WunderChild</string>
+    <string name="text_picture">text picture</string>
+    <string name="children_picture">children picture</string>
+    <string name="en">EN</string>
+    <string name="bg">BG</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

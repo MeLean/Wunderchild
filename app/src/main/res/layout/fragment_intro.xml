@@ -1,22 +1,40 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
     tools:context="com.mdimitrov.wunderchild.utils.ui.fragments.IntroFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
 
     <ImageView
-        android:id="@+id/text_picture"
+        android:id="@+id/intro_text_picture"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/text_picture_height"
+        android:contentDescription="@string/text_picture"
         />
 
     <ImageView
-        android:id="@+id/cildren_picture"
+        android:id="@+id/intro_children_picture"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/children_picture_height" />
+        android:layout_height="@dimen/children_picture_height"
+        android:contentDescription="@string/children_picture"
+        android:src="@drawable/ic_launcher_background"
+        />
     <TextView
+        android:id="@+id/intro_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        />
 
-</FrameLayout>
+    <Button
+        android:id="@+id/intro_test_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    </LinearLayout>
+</ScrollView>

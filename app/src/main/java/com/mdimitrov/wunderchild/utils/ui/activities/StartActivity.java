@@ -1,6 +1,7 @@
 package com.mdimitrov.wunderchild.utils.ui.activities;
-import android.app.ActionBar;
-import android.app.FragmentManager;
+
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,20 +11,31 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.mdimitrov.wunderchild.R;
-import com.mdimitrov.wunderchild.utils.SharedPreferenceUtils;
+import com.mdimitrov.wunderchild.utils.ui.fragments.IntroFragment;
+import com.mdimitrov.wunderchild.utils.ui.fragments.BaseFragment;
+import com.mdimitrov.wunderchild.utils.ui.utils.SharedPreferenceUtils;
 
 public class StartActivity extends AppCompatActivity {
-    private static final String LANGUAGE_KEY = "languages_key";
-    private FragmentManager mFragmentManager;
+    private static final String SAVED_LANGUAGE_KEY = "saver_language";
+    private BaseFragment mCurFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        mFragmentManager = getFragmentManager();
-        ActionBar actionBar = getActionBar();
-        if(actionBar != null) actionBar.hide();
+        ActionBar actionbar = getSupportActionBar();
+        if (actionbar != null) actionbar.hide();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        mCurFragment = (BaseFragment) fragmentManager.findFragmentByTag(IntroFragment.TAG);
+        if (mCurFragment == null){
+            //If there is no save string EN is a start language
+            mCurFragment = IntroFragment
+                    .newInstance(SharedPreferenceUtils.loadString(this, SAVED_LANGUAGE_KEY, getString(R.string.en)));
+        }
+
+        loadFragment(fragmentManager, mCurFragment);
 
         Spinner spinner = findViewById(R.id.language_spinner);
 // Create an ArrayAdapter using the string array and a default spinner layout
@@ -33,11 +45,14 @@ public class StartActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
+        //todo manage selected language
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("AppDebugg", "Language selected: " + parent.getSelectedItem());
-                SharedPreferenceUtils.saveString(view.getContext(), LANGUAGE_KEY, parent.getSelectedItem().toString());
+                Log.d("AppDebug", "Language selected: " + parent.getSelectedItem());
+                String language = parent.getSelectedItem().toString();
+                mCurFragment.changeLanguage(language);
+                SharedPreferenceUtils.saveString(StartActivity.this, SAVED_LANGUAGE_KEY, language);
             }
 
             @Override
@@ -45,7 +60,15 @@ public class StartActivity extends AppCompatActivity {
                 //do nothing
             }
         });
-
-        //loadFragment(mFragmentManager,  Fragment.class);
     }
+
+
+    public void loadFragment(FragmentManager fragmentManager, BaseFragment fragment) {
+        mCurFragment = fragment;
+        fragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_wrapper, fragment, fragment.getFragmentTag())
+                .commit();
+    }
+
 }

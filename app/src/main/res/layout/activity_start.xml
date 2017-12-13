@@ -1,15 +1,16 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_wrapper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f4a74a"
+    android:background="@color/activity_orange"
     tools:context="com.mdimitrov.wunderchild.utils.ui.activities.StartActivity">
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="top"
+        android:layout_alignParentTop="true"
         >
         <TextView
             android:id="@+id/title"
@@ -32,6 +33,8 @@
     <FrameLayout
         android:id="@+id/fragment_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header"
+        />
 
-</FrameLayout>
+</RelativeLayout>

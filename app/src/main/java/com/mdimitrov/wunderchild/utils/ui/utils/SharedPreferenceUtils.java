@@ -1,4 +1,4 @@
-package com.mdimitrov.wunderchild.utils;
+package com.mdimitrov.wunderchild.utils.ui.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
