@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f4a74a"
-    tools:context="com.mdimitrov.wunderchild.StartActivity">
+    tools:context="com.mdimitrov.wunderchild.utils.ui.activities.StartActivity">
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_weight="0"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/default_margin"
             />
     </LinearLayout>
     <FrameLayout

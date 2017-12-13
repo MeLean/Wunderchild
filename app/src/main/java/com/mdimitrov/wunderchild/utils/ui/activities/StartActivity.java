@@ -1,4 +1,4 @@
-package com.mdimitrov.wunderchild;
+package com.mdimitrov.wunderchild.utils.ui.activities;
 import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.mdimitrov.wunderchild.R;
 import com.mdimitrov.wunderchild.utils.SharedPreferenceUtils;
 
 public class StartActivity extends AppCompatActivity {
