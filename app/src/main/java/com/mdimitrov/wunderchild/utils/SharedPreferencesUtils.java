@@ -1,11 +1,11 @@
-package com.mdimitrov.wunderchild.utils.ui.utils;
+package com.mdimitrov.wunderchild.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.util.Set;
 import java.util.Stack;
 
-public class SharedPreferenceUtils {
+public class SharedPreferencesUtils {
     private static final String PREF_NAME = "com.mdimitrov.wunderchild.utils.SharedPreferences";
     private static final String STACK_SEPARATOR = ",";
 

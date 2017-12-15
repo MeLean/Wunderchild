@@ -1,4 +1,4 @@
-package com.mdimitrov.wunderchild.utils.ui.utils;
+package com.mdimitrov.wunderchild.utils;
 
 import android.content.Context;
 
@@ -31,6 +31,15 @@ public class LanguageManager {
                 return "Free talent test";
             }else{
                 return "Открий таланта";
+            }
+        }
+
+        public static String getTextTitle(Context context, String language) {
+            if(language.equals(context.getString(R.string.en))){
+                return "Your Kids\nHave Talents!";
+            }else{
+                //todo
+                return "Твоите деца\nИмат Таланти!";
             }
         }
     }

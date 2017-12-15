@@ -1,4 +1,4 @@
-package com.mdimitrov.wunderchild.utils.ui.fragments;
+package com.mdimitrov.wunderchild.ui.fragments;
 
 
 import android.os.Bundle;
@@ -6,11 +6,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
+import com.mdimitrov.wunderchild.R;
+import com.mdimitrov.wunderchild.ui.activities.StartingActivity;
+import com.mdimitrov.wunderchild.utils.SharedPreferencesUtils;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public abstract class BaseFragment extends Fragment {
-    protected static final String LANGUAGE_KEY = "language";
 
     public BaseFragment() {
         // Required empty public constructor
@@ -22,19 +25,14 @@ public abstract class BaseFragment extends Fragment {
         if(view != null){
            translateFields(view, languageString);
         }
-
-        Bundle bundle = new Bundle();
-        bundle.putString(LANGUAGE_KEY, languageString);
-        setArguments(bundle);
     }
 
     protected abstract void translateFields(View view, String languageString);
 
-    abstract public String getFragmentTag();
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        changeLanguage(getArguments().getString(LANGUAGE_KEY));
+        //if no string is stored english will be default
+        changeLanguage(SharedPreferencesUtils.loadString(getContext(), StartingActivity.SAVED_LANGUAGE_KEY, getString(R.string.en)));
     }
 }

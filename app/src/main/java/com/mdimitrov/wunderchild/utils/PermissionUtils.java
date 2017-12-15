@@ -1,4 +1,4 @@
-package com.mdimitrov.wunderchild.utils.ui.utils;
+package com.mdimitrov.wunderchild.utils;
 
 
 import android.annotation.TargetApi;
