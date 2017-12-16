@@ -4,6 +4,7 @@ package com.mdimitrov.wunderchild.ui.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 
 import com.mdimitrov.wunderchild.R;
@@ -21,7 +22,7 @@ public abstract class BaseFragment extends Fragment {
 
     public void changeLanguage(String languageString){
         View view = getView();
-
+        //Log.d("AppDebug", "changeLanguage called from BaseFragment view" + view);
         if(view != null){
            translateFields(view, languageString);
         }

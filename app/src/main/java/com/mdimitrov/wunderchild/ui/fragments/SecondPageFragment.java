@@ -4,6 +4,7 @@ package com.mdimitrov.wunderchild.ui.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class SecondPageFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void translateFields(View view, String languageString) {
+        //Log.d("AppDebug", "translateFields SecondFragment called");
         Context context = view.getContext();
         ((TextView) view.findViewById(R.id.second_page_text))
                 .setText(LanguageManager.Join.getText(context, languageString));

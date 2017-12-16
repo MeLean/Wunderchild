@@ -12,10 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 
-import com.ToxicBakery.viewpager.transforms.ZoomOutSlideTransformer;
+import com.ToxicBakery.viewpager.transforms.TabletTransformer;
+import com.ToxicBakery.viewpager.transforms.ZoomInTransformer;
 import com.mdimitrov.wunderchild.R;
-import com.mdimitrov.wunderchild.ui.adapters.viewpager.MainViewPagerAdapter;
-import com.mdimitrov.wunderchild.ui.fragments.BaseFragment;
+import com.mdimitrov.wunderchild.ui.adapters.viewpager.StartViewPagerAdapter;
+import com.mdimitrov.wunderchild.utils.AnimationsUtils;
 import com.mdimitrov.wunderchild.utils.SharedPreferencesUtils;
 
 public class StartingActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
@@ -23,6 +24,7 @@ public class StartingActivity extends AppCompatActivity implements ViewPager.OnP
 
     private ViewPager mStartViewPager;
     private boolean notFirstTimeSelected = false;
+    private StartViewPagerAdapter mViewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,24 @@ public class StartingActivity extends AppCompatActivity implements ViewPager.OnP
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mStartViewPager.addOnPageChangeListener(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mStartViewPager.getCurrentItem() == 0) {
+            // If the user is currently looking at the first step, allow the system to handle the
+            // Back button. This calls finish() on this activity and pops the back stack.
+            super.onBackPressed();
+        } else {
+            // Otherwise, select the previous step.
+            int fragmentId = mStartViewPager.getCurrentItem() - 1;
+            mStartViewPager.setCurrentItem(fragmentId, true);
+        }
+    }
 
     private void setupLanguageSpinner() {
         Spinner spinner = findViewById(R.id.language_spinner);
@@ -51,10 +71,12 @@ public class StartingActivity extends AppCompatActivity implements ViewPager.OnP
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("AppDebug", "Language selected: " + parent.getSelectedItem()
+                        + " notFirstTimeSelected :" + notFirstTimeSelected
+                );
                 if (notFirstTimeSelected) {
-                    Log.d("AppDebug", "Language selected: " + parent.getSelectedItem());
                     String language = parent.getSelectedItem().toString();
-                    getCurrentPageFragment().changeLanguage(language);
+                    mViewPagerAdapter.changeFragmentsLanguage(language);
                     SharedPreferencesUtils.saveString(StartingActivity.this, SAVED_LANGUAGE_KEY, language);
                     notFirstTimeSelected = true;
                 } else {
@@ -69,9 +91,10 @@ public class StartingActivity extends AppCompatActivity implements ViewPager.OnP
                             throw new UnsupportedOperationException(savedLanguage + " language is not supported");
                         }
 
-                        getCurrentPageFragment().changeLanguage(savedLanguage);
-                        notFirstTimeSelected = true;
+                        mViewPagerAdapter.changeFragmentsLanguage(savedLanguage);
                     }
+
+                    notFirstTimeSelected = true;
                 }
 
             }
@@ -83,12 +106,19 @@ public class StartingActivity extends AppCompatActivity implements ViewPager.OnP
         });
     }
 
+    private void setupPagerView() {
+        mStartViewPager = findViewById(R.id.start_view_pager);
+        mViewPagerAdapter = new StartViewPagerAdapter(this);
+        mStartViewPager.setAdapter(mViewPagerAdapter);
+        mStartViewPager.setPageTransformer(false, new ZoomInTransformer());
+    }
 
     public void loadNextPage() {
         int curItemId = mStartViewPager.getCurrentItem();
 
         if (curItemId < mStartViewPager.getAdapter().getCount()) {
-            mStartViewPager.setCurrentItem(curItemId + 1, true);
+            int nextItemId = curItemId + 1;
+            mStartViewPager.setCurrentItem(nextItemId, true);
         } else {
             throw new UnsupportedOperationException("page id can not be greater or equal then "
                     + mStartViewPager.getAdapter().getCount());
@@ -96,16 +126,22 @@ public class StartingActivity extends AppCompatActivity implements ViewPager.OnP
 
     }
 
-    @Override
-    public void onBackPressed() {
-        if (mStartViewPager.getCurrentItem() == 0) {
-            // If the user is currently looking at the first step, allow the system to handle the
-            // Back button. This calls finish() on this activity and pops the back stack.
-            super.onBackPressed();
+    private void setActivityBackground(int fragmentId) {
+        int colorId;
+        //Log.d("AppDebug","position "+fragmentId);
+        if(fragmentId == 0){
+            colorId = R.color.fragment_orange;
+        }else if (fragmentId == 1){
+            colorId = R.color.fragment_blue;
         } else {
-            // Otherwise, select the previous step.
-            mStartViewPager.setCurrentItem(mStartViewPager.getCurrentItem() - 1);
+            throw new UnsupportedOperationException("no color for id: " + fragmentId);
         }
+
+        View activityView = findViewById(R.id.activity_wrapper);
+/*        AnimationsUtils.animateRevealCenterOfClickedTarget(
+                activityView, colorId, (int) activityView.getX(), (int) activityView.getY()
+        );*/
+        activityView.setBackgroundResource(colorId);
     }
 
     @Override
@@ -115,24 +151,11 @@ public class StartingActivity extends AppCompatActivity implements ViewPager.OnP
 
     @Override
     public void onPageSelected(int position) {
-
+        setActivityBackground(position);
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
 
-    }
-
-    private BaseFragment getCurrentPageFragment() {
-        return (BaseFragment) getSupportFragmentManager()
-                .findFragmentByTag("android:switcher:" + R.id.start_view_pager + ":" + mStartViewPager.getCurrentItem());
-    }
-
-    private void setupPagerView() {
-        mStartViewPager = findViewById(R.id.start_view_pager);
-        MainViewPagerAdapter viewPagerAdapter = new MainViewPagerAdapter(this);
-        mStartViewPager.setAdapter(viewPagerAdapter);
-        mStartViewPager.setPageTransformer(false, new ZoomOutSlideTransformer());
-        mStartViewPager.addOnPageChangeListener(this);
     }
 }

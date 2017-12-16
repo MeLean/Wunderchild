@@ -6,14 +6,15 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 
 import com.mdimitrov.wunderchild.R;
+import com.mdimitrov.wunderchild.ui.fragments.BaseFragment;
 import com.mdimitrov.wunderchild.ui.fragments.FirstPageFragment;
 import com.mdimitrov.wunderchild.ui.fragments.SecondPageFragment;
 
-public class MainViewPagerAdapter extends FragmentPagerAdapter {
+public class StartViewPagerAdapter extends FragmentPagerAdapter {
     private static int mItemsCount;
     private final FragmentManager mFragmentManager;
 
-    public MainViewPagerAdapter(AppCompatActivity activity) {
+    public StartViewPagerAdapter(AppCompatActivity activity) {
         super(activity.getSupportFragmentManager());
         this.mFragmentManager = activity.getSupportFragmentManager();
         //todo check if всичко е точно ;D
@@ -38,5 +39,14 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return mItemsCount;
+    }
+
+    public void changeFragmentsLanguage(String language){
+        for (int i = 0; i < mItemsCount; i++){
+            BaseFragment page = (BaseFragment) getItem(i);
+            if (page != null){
+                page.changeLanguage(language);
+            }
+        }
     }
 }

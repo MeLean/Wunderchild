@@ -4,6 +4,7 @@ package com.mdimitrov.wunderchild.ui.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class FirstPageFragment extends BaseFragment {
 
     @Override
     protected void translateFields(View view, String languageString) {
+        //Log.d("AppDebug", "translateFields FirstFragment called");
         Context context = view.getContext();
         ((TextView) view.findViewById(R.id.first_page_text_title))
                 .setText(LanguageManager.Intro.getTextTitle(context, languageString));
